@@ -1,14 +1,5 @@
-# Welcome to your CDK TypeScript project!
+# Sandbox: AWS CDK + Rust
 
-This is a blank project for TypeScript development with CDK.
+A short experiment on applying CDK with Rust. Did once before in a private repo, now redoing the work to practice with a CI/CD workflow created in AWS.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+I'm listening to NoteBlock's ["Train Rush" A Hat in Time Remix](https://noteblock.bandcamp.com/track/train-rush-a-hat-in-time-remix) on repeat while building this. It's so good.
