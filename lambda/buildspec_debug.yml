@@ -16,18 +16,19 @@ batch:
 phases:
   install:
     commands:
-      - "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | CARGO_HOME=/cargo RUSTUP_HOME=/rustup sh -s -- -y --profile minimal --default-toolchain 1.49.0"
-      - "source /cargo/env"
-      - "rustup default stable"
+      - "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable-x86_64-unknown-linux-gnu"
+      - 'source /root/.cargo/env'
 
   pre_build:
     commands:
-      - "cd lambda/$CODE_DIR"
+      - 'cd lambda/$CODE_DIR'
+      - "rustup override set stable-x86_64-unknown-linux-gnu"
   build:
     commands:
       - "cargo test"
 
 cache:
   paths:
-    - '/cargo/registry/**/*'
-    - '/cargo/git/**/*'
+    - '/root/.cargo/registry/**/*'
+    - '/root/.cargo/git/**/*'
+    - 'lambda/$CODE_DIR/target/debug/**/*'
