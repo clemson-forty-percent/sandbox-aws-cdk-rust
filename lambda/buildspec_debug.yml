@@ -1,0 +1,33 @@
+version: 0.2
+
+run-as: root
+
+batch:
+  fast-fail: true
+  build-list:
+    - identifier: linux_hello
+      env:
+        type: LINUX_CONTAINER
+        image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        compute-type: BUILD_GENERAL1_SMALL
+        variables:
+          CODE_DIR: "hello"
+
+phases:
+  install:
+    commands:
+      - "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | CARGO_HOME=/cargo RUSTUP_HOME=/rustup sh -s -- -y --profile minimal --default-toolchain 1.49.0"
+      - "source /cargo/env"
+      - "rustup default stable"
+
+  pre_build:
+    commands:
+      - "cd lambda/$CODE_DIR"
+  build:
+    commands:
+      - "cargo test"
+
+cache:
+  paths:
+    - '/cargo/registry/**/*'
+    - '/cargo/git/**/*'
