@@ -10,7 +10,7 @@ export class SandboxAwsCdkRustStack extends cdk.Stack {
     // Define lambda functions
     const rustTest = new lambda.Function(this, 'rustTest', {
         runtime: lambda.Runtime.PROVIDED_AL2,
-        code: lambda.Code.fromAsset('../lambda/hello/target/lambda/release/hello.zip'),
+        code: lambda.Code.fromAsset('lambda/hello/target/lambda/release/hello.zip'),
         handler: 'doesnt.matter',
     });
 

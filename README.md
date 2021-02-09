@@ -17,7 +17,8 @@ I'm using `direnv` + `nix` so nodejs and rust dependencies automatically are ins
 The following files may be interesting to beginners with AWS or developers looking to build AWS lambdas with Rust.
 
 - `shell.nix` - Required binaries to run and build the project.
-- `cdk-ci-pipeline/lib/cdk-ci-pipeline-stack.ts` - The cdk structure for building a simple CI pipeline for Cargo.
+- `lib/cdk-ci-pipeline-stack.ts` - The cdk structure for building a simple CI pipeline for Cargo.
+- `lib/sandbox-aws-cdk-rust-stack.ts` - The cdk structure for building the Lambda application.
 - `lambda/buildspec_debug.yml` - The codebuild buildspec file for installing rustup and using it in AL2.
 - `lambda/hello/src/main.rs` - An example of a simple AWS APIGatewayV2 handler. Good for if you're thinking of building a REST api in Rust.
 

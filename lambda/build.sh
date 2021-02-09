@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Verify proper argument usage
-if [[ -z $1 || -n $2 ]]; then
+if [[ $# -ne 1 ]]; then
     echo "Usage: bash build.sh <project-dir>"
     exit 1
 fi
