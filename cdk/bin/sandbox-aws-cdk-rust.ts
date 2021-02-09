@@ -2,6 +2,10 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { SandboxAwsCdkRustStack } from '../lib/sandbox-aws-cdk-rust-stack';
+import { CdkCiPipelineStack } from '../lib/cdk-ci-pipeline-stack';
 
-const app = new cdk.App();
-new SandboxAwsCdkRustStack(app, 'SandboxAwsCdkRustStack');
+const mainApp = new cdk.App();
+new SandboxAwsCdkRustStack(mainApp, 'SandboxAwsCdkRustStack');
+
+const ciApp = new cdk.App();
+new CdkCiPipelineStack(ciApp, 'CdkCiPipelineStack');
