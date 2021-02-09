@@ -10,8 +10,10 @@ export class CdkCiPipelineStack extends cdk.Stack {
         const cacheBucket = new s3.Bucket(this, 'CiCacheBucket', {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.KMS,
-            bucketKeyEnabled:true,
+            bucketKeyEnabled: true,
         });
+
+        const artifactBucket = new s3.Bucket(this, 'CiArtifactBucket');
 
         /* const mainNpmBuild = new codebuild.Project() */
         new codebuild.GitHubSourceCredentials(this, 'CodeBuildGitHubCreds', {
@@ -21,7 +23,7 @@ export class CdkCiPipelineStack extends cdk.Stack {
         });
 
         const mainCargoBuild = new codebuild.Project(this, 'CiMainCargoBuild', {
-            buildSpec: codebuild.BuildSpec.fromSourceFilename('lambda/buildspec_debug.yml'),
+            buildSpec: codebuild.BuildSpec.fromSourceFilename('lambda/buildspec_release.yml'),
             source: codebuild.Source.gitHub({
                 owner: 'houstdav000',
                 repo: 'sandbox-aws-cdk-rust',
@@ -39,6 +41,9 @@ export class CdkCiPipelineStack extends cdk.Stack {
                         .andBaseBranchIs('main'),
                 ],
                 webhookTriggersBatchBuild: true,
+            }),
+            artifacts: codebuild.Artifacts.s3({
+                bucket: artifactBucket,
             }),
             cache: codebuild.Cache.bucket(cacheBucket),
             timeout: cdk.Duration.minutes(5),
