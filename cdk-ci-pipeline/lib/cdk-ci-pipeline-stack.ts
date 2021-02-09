@@ -41,6 +41,7 @@ export class CdkCiPipelineStack extends cdk.Stack {
                 webhookTriggersBatchBuild: true,
             }),
             cache: codebuild.Cache.bucket(cacheBucket),
+            timeout: cdk.Duration.minutes(5),
         });
     }
 }
