@@ -13,7 +13,7 @@ phases:
 
   pre_build:
     commands:
-      - 'cd hello-service/lambda'
+      - 'cd lambda'
       - "rustup override set stable-x86_64-unknown-linux-gnu"
 
   build:
@@ -29,22 +29,20 @@ phases:
 
 
 artifacts:
-  files:
-    - 'lambda/Cargo.toml'
   discard-paths: yes
   s3-prefix: 'lambda-artifacts'
   secondary-artifacts:
     lambda_hello:
       files:
-        - 'hello-service/lambda/hello/bootstrap'
+        - 'lambda/hello/bootstrap'
       name: 'lambda_hello'
     lambda_another:
       files:
-        - 'hello-service/lambda/another/bootstrap'
+        - 'lambda/another/bootstrap'
       name: 'lambda_another'
 
 cache:
   paths:
     - '/root/.cargo/registry/**/*'
     - '/root/.cargo/git/**/*'
-    - 'hello-service/lambda/target/release/**/*'
+    - 'lambda/target/release/**/*'

@@ -13,7 +13,7 @@ phases:
 
   pre_build:
     commands:
-      - 'cd hello-service/lambda/'
+      - 'cd lambda/'
       - "rustup override set stable-x86_64-unknown-linux-gnu"
   build:
     commands:
@@ -23,4 +23,4 @@ cache:
   paths:
     - '/root/.cargo/registry/**/*'
     - '/root/.cargo/git/**/*'
-    - 'hello-service/lambda/target/debug/**/*'
+    - 'lambda/target/debug/**/*'
