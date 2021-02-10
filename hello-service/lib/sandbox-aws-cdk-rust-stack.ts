@@ -7,6 +7,7 @@ export class SandboxAwsCdkRustStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // Define source repository
     // Define lambda functions
     const helloTest = new lambda.Function(this, 'helloTest', {
         runtime: lambda.Runtime.PROVIDED_AL2,
