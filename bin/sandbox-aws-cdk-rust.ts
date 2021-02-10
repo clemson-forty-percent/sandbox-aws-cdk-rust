@@ -122,6 +122,7 @@ const cdkBuildProject = new codebuild.Project(pipelineStack, 'CdkBuildProject', 
             },
         },
         artifacts: {
+            "discard-paths": 'yes',
             files: [
                 'cdk.out/LambdaStack.template.json',
             ],
@@ -252,3 +253,24 @@ lambdaPipeline.addStage({
 });
 
 // Deploy stage
+const deployAction = new codepipeline_actions.CloudFormationCreateUpdateStackAction({
+    actionName: 'Lambda_CFN_Deploy',
+    templatePath: cdkBuildOutput.atPath('LambdaStack.template.json'),
+    stackName: 'LambdaStackDeployed',
+    adminPermissions: true,
+    parameterOverrides: {
+        ...helloCode.assign(lambdaBuildHelloOutput.s3Location),
+        ...anotherCode.assign(lambdaBuildAnotherOutput.s3Location),
+    },
+    extraInputs: [
+        lambdaBuildHelloOutput,
+        lambdaBuildAnotherOutput,
+    ],
+});
+
+lambdaPipeline.addStage({
+    stageName: 'Deploy',
+    actions: [
+        deployAction,
+    ],
+});
