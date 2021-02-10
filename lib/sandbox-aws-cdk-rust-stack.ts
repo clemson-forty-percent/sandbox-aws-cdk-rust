@@ -8,14 +8,14 @@ export class SandboxAwsCdkRustStack extends cdk.Stack {
     super(scope, id, props);
 
     // Define lambda functions
-    const rustTest = new lambda.Function(this, 'rustTest', {
+    const helloTest = new lambda.Function(this, 'helloTest', {
         runtime: lambda.Runtime.PROVIDED_AL2,
-        code: lambda.Code.fromAsset('lambda/hello/target/lambda/release/hello.zip'),
+        code: lambda.Code.fromAsset('lambda/target/release/hello.zip'),
         handler: 'doesnt.matter',
     });
 
-    const rustTestIntegration = new apigwi.LambdaProxyIntegration({
-        handler: rustTest,
+    const helloTestIntegration = new apigwi.LambdaProxyIntegration({
+        handler: helloTest,
     });
 
     // Define API and routes
@@ -24,7 +24,7 @@ export class SandboxAwsCdkRustStack extends cdk.Stack {
     httpApi.addRoutes({
         path: '/hello',
         methods: [ apigw.HttpMethod.GET ],
-        integration: rustTestIntegration,
+        integration: helloTestIntegration,
     });
   }
 }

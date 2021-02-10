@@ -2,23 +2,8 @@ version: 0.2
 
 run-as: root
 
-batch:
-  fast-fail: true
-  build-list:
-    - identifier: linux_hello
-      env:
-        type: LINUX_CONTAINER
-        image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
-        compute-type: BUILD_GENERAL1_SMALL
-        variables:
-          CODE_DIR: "hello"
-    - identifier: linux_another
-      env:
-        type: LINUX_CONTAINER
-        image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
-        compute-type: BUILD_GENERAL1_SMALL
-        variables:
-          CODE_DIR: "another"
+env:
+  shell: 'bash'
 
 phases:
   install:
@@ -28,14 +13,14 @@ phases:
 
   pre_build:
     commands:
-      - 'cd lambda/$CODE_DIR'
+      - 'cd lambda/'
       - "rustup override set stable-x86_64-unknown-linux-gnu"
   build:
     commands:
-      - "cargo test"
+      - "cargo test --workspace"
 
 cache:
   paths:
     - '/root/.cargo/registry/**/*'
     - '/root/.cargo/git/**/*'
-    - 'lambda/$CODE_DIR/target/debug/**/*'
+    - 'lambda/target/debug/**/*'

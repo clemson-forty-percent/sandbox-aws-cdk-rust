@@ -2,23 +2,8 @@ version: 0.2
 
 run-as: root
 
-batch:
-  fast-fail: true
-  build-list:
-    - identifier: linux_hello
-      env:
-        type: LINUX_CONTAINER
-        image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
-        compute-type: BUILD_GENERAL1_SMALL
-        variables:
-          CODE_DIR: "hello"
-    - identifier: linux_another
-      env:
-        type: LINUX_CONTAINER
-        image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
-        compute-type: BUILD_GENERAL1_SMALL
-        variables:
-          CODE_DIR: "another"
+env:
+  shell: 'bash'
 
 phases:
   install:
@@ -28,28 +13,38 @@ phases:
 
   pre_build:
     commands:
-      - 'cd lambda/$CODE_DIR'
+      - 'cd lambda'
       - "rustup override set stable-x86_64-unknown-linux-gnu"
 
   build:
     commands:
-      - "cargo build --release"
+      - "cargo build --workspace --release"
 
   post_build:
     commands:
-      - "strip target/release/$CODE_DIR"
-      - "mv target/release/$CODE_DIR ./bootstrap"
-      - "zip -j $CODE_DIR.zip bootstrap"
+      - 'cp target/release/hello hello/bootstrap'
+      - 'strip hello/bootstrap'
+      - 'cp target/release/another another/bootstrap'
+      - 'strip another/bootstrap'
 
 
 artifacts:
   files:
-    - 'lambda/$CODE_DIR/$CODE_DIR.zip'
+    - 'lambda/Cargo.toml'
   discard-paths: yes
   s3-prefix: 'lambda-artifacts'
+  secondary-artifacts:
+    lambda_hello:
+      files:
+        - 'lambda/hello/bootstrap'
+      name: 'lambda_hello'
+    lambda_another:
+      files:
+        - 'lambda/another/bootstrap'
+      name: 'lambda_another'
 
 cache:
   paths:
     - '/root/.cargo/registry/**/*'
     - '/root/.cargo/git/**/*'
-    - 'lambda/$CODE_DIR/target/release/**/*'
+    - 'lambda/target/release/**/*'

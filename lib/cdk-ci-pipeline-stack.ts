@@ -40,11 +40,30 @@ export class CdkCiPipelineStack extends cdk.Stack {
                         .andBranchIs('feature-backend/*')
                         .andBaseBranchIs('main'),
                 ],
-                webhookTriggersBatchBuild: true,
             }),
+            environment: {
+                buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_3,
+                computeType: codebuild.ComputeType.SMALL,
+            },
             artifacts: codebuild.Artifacts.s3({
                 bucket: artifactBucket,
+                includeBuildId: false,
+                name: 'projects',
             }),
+            secondaryArtifacts: [
+                codebuild.Artifacts.s3({
+                    bucket: artifactBucket,
+                    includeBuildId: false,
+                    name: 'hello.zip',
+                    identifier: 'lambda_hello',
+                }),
+                codebuild.Artifacts.s3({
+                    bucket: artifactBucket,
+                    includeBuildId: false,
+                    name: 'another.zip',
+                    identifier: 'lambda_another',
+                }),
+            ],
             cache: codebuild.Cache.bucket(cacheBucket),
             timeout: cdk.Duration.minutes(5),
         });
