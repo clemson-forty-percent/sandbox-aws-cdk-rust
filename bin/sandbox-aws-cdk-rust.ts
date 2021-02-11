@@ -85,7 +85,7 @@ const sourceAction = new codepipeline_actions.GitHubSourceAction({
         jsonField: 'PERSONAL_ACCESS_TOKEN',
     }),
     output: sourceOutput,
-    owner: 'houstdav000',
+    owner: 'clemson-forty-percent',
     repo: 'sandbox-aws-cdk-rust',
     branch: 'main',
     trigger: codepipeline_actions.GitHubTrigger.WEBHOOK,

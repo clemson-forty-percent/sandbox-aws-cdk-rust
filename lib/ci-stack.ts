@@ -26,7 +26,7 @@ export class CiStack extends cdk.Stack {
             /* buildSpec: codebuild.BuildSpec.fromSourceFilename('lambda/buildspec_release.yml'), */
             buildSpec: codebuild.BuildSpec.fromSourceFilename('lambda/buildspec_debug.yml'),
             source: codebuild.Source.gitHub({
-                owner: 'houstdav000',
+                owner: 'clemson-forty-percent',
                 repo: 'sandbox-aws-cdk-rust',
                 branchOrRef: 'main',
                 fetchSubmodules: false,
